@@ -1,0 +1,2 @@
+/static-bot-panel/*
+  Content-Security-Policy: default-src 'none'; style-src 'unsafe-inline'; img-src data: 'self'; script-src 'self'; connect-src 'self' https://hugmebot.blazebr.com:26173
