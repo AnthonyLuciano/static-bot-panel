@@ -4,8 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Servidores</title>
-    <link rel="icon" href="./static/favicon.ico" type="image/x-icon">
-    <link rel="stylesheet" href="./static/css/style.css">
+    <link rel="stylesheet" href="../assets/css/style.css">
 </head>
 <body>
     <div class="container">
@@ -14,10 +13,20 @@
         <ul id="guildsList">
             <!-- Guilds will be inserted here -->
         </ul>
+        <a href="./dashboard.html" class="btn">Voltar</a>
     </div>
-    <script src="./static/js/script.js"></script>
+    <script src="../assets/js/script.js"></script>
     <script>
-        const API_BASE = 'https://your-api-domain.com';
+        const API_BASE = getApiBase();
+        
+        // Capturar token da URL se vindo do login
+        const urlParams = new URLSearchParams(window.location.search);
+        const tokenFromUrl = urlParams.get('token');
+        if (tokenFromUrl) {
+            localStorage.setItem('access_token', tokenFromUrl);
+            window.history.replaceState({}, document.title, window.location.pathname);
+        }
+        
         const token = localStorage.getItem('access_token');
 
         if (!token) {
@@ -28,7 +37,8 @@
             try {
                 const response = await fetch(`${API_BASE}/servers`, {
                     headers: {
-                        'Authorization': `Bearer ${token}`
+                        'Authorization': `Bearer ${token}`,
+                        'Accept': 'application/json'
                     }
                 });
                 if (!response.ok) throw new Error('Failed to load servers');

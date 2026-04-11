@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Painel Administrativo</title>
+    <link rel="stylesheet" href="../assets/css/style.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Bem-vindo ao Painel Administrativo</h1>
+        <p id="status">Carregando...</p>
+        <a id="loginLink" href="#" class="btn">Entrar com Discord</a>
+    </div>
+    <script src="../assets/js/script.js"></script>
+    <script>
+        // Capturar token da URL (vindo do backend após login)
+        const urlParams = new URLSearchParams(window.location.search);
+        const tokenFromUrl = urlParams.get('token');
+        
+        if (tokenFromUrl) {
+            // Token recebido do backend, salvar e redirecionar
+            localStorage.setItem('access_token', tokenFromUrl);
+            document.getElementById('status').textContent = 'Autenticado! Redirecionando...';
+            setTimeout(() => {
+                window.location.href = './dashboard.html';
+            }, 500);
+        } else if (localStorage.getItem('access_token')) {
+            // Já logado, redirecionar para dashboard
+            window.location.href = './dashboard.html';
+        } else {
+            // Não logado, mostrar botão de login
+            document.getElementById('status').textContent = '';
+            document.getElementById('loginLink').href = getApiBase() + '/login';
+        }
+    </script>
+</body>
+</html>
